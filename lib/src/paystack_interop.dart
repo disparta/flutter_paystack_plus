@@ -1,5 +1,3 @@
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:js' as js;
 import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
@@ -44,7 +42,7 @@ class PayForWeb implements MakePlatformSpecificPayment {
       amount.toJS,
       reference.toJS,
       (plan ?? '').toJS,
-      (currency ?? 'ZAR').toJS,
+      'ZAR'.toJS,
       jsOnClosed,
       jsOnSuccess,
     );
