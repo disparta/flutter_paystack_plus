@@ -1,25 +1,25 @@
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:js' as js;
+import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_paystack_plus/src/abstract_class.dart';
-import 'package:js/js.dart';
 
 @JS()
-external paystackPopUp(
-  String publicKey,
-  String email,
-  String amount,
-  String ref,
-  String plan,
-  String currency,
-  Object? Function() onClosed,
-  Object? Function() callback,
+external JSVoid paystackPopUp(
+  JSString publicKey,
+  JSString email,
+  JSString amount,
+  JSString ref,
+  JSString plan,
+  JSString currency,
+  JSFunction onClosed,
+  JSFunction callback,
 );
 
 class PayForWeb implements MakePlatformSpecificPayment {
   @override
-  makePayment({
+  Future<void> makePayment({
     required String customerEmail,
     required String amount,
     required String reference,
@@ -30,21 +30,23 @@ class PayForWeb implements MakePlatformSpecificPayment {
     metadata,
     String? plan,
     BuildContext? context,
-    required Object? Function() onClosed,
-    required Object? Function() onSuccess,
+    required void Function() onClosed,
+    required void Function() onSuccess,
   }) async {
-    js.context.callMethod(
-      paystackPopUp(
-        publicKey!,
-        customerEmail,
-        amount,
-        reference,
-        plan ?? '',
-        currency ?? 'NGN',
-        js.allowInterop(onClosed),
-        js.allowInterop(onSuccess),
-      ),
-      [],
+    // Convert Dart functions to JavaScript functions
+    final jsOnClosed = onClosed.toJS;
+    final jsOnSuccess = onSuccess.toJS;
+
+    // Call the JavaScript function
+    paystackPopUp(
+      publicKey!.toJS,
+      customerEmail.toJS,
+      amount.toJS,
+      reference.toJS,
+      (plan ?? '').toJS,
+      (currency ?? 'ZAR').toJS,
+      jsOnClosed,
+      jsOnSuccess,
     );
   }
 }

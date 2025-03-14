@@ -1,6 +1,6 @@
 name: flutter_paystack_plus
 description: An improved implementation of payment using Paystack, with support for split payment and subscription features.
-version: 2.2.1
+version: 2.2.1+1
 homepage: https://github.com/Princewil/flutter_paystack_plus
 
 environment:
@@ -10,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  js: ^0.7.1
   http: ^1.2.2
   webview_flutter: ^4.10.0
 
